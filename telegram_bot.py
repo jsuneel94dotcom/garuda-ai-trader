@@ -1,3 +1,4 @@
+
 from telegram import Update
 from telegram.ext import (
     ApplicationBuilder,
@@ -8,6 +9,7 @@ from telegram.ext import (
 from config import TELEGRAM_TOKEN
 from news import get_positive_news
 
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = """
 🤖 Garuda AI Trader
@@ -17,8 +19,8 @@ Welcome!
 Commands:
 
 /scan - Swing scan
-/news - Positive NSE announcements
-/help - Help
+/ news - Positive NSE announcements
+/ help - Help
 """
     await update.message.reply_text(text)
 
@@ -32,10 +34,11 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def scan(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "🔍 Scanning stocks...\n\nFeature coming in next step."
-    
+    )
 
-    
+
 async def news(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
     items = get_positive_news()
 
     text = "📰 Positive NSE Announcements\n\n"
@@ -48,6 +51,7 @@ async def news(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     await update.message.reply_text(text)
+
 
 def main():
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
