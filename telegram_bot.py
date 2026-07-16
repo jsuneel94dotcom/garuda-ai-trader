@@ -6,7 +6,7 @@ from telegram.ext import (
 )
 
 from config import TELEGRAM_TOKEN
-
+from news import get_positive_news
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = """
@@ -32,14 +32,22 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def scan(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "🔍 Scanning stocks...\n\nFeature coming in next step."
-    )
+    
 
-
+    
 async def news(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "📰 Fetching positive NSE announcements...\n\nFeature coming in next step."
-    )
+    items = get_positive_news()
 
+    text = "📰 Positive NSE Announcements\n\n"
+
+    for item in items:
+        text += (
+            f"Stock: {item['stock']}\n"
+            f"News: {item['news']}\n"
+            f"Impact: {item['impact']}\n\n"
+        )
+
+    await update.message.reply_text(text)
 
 def main():
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
