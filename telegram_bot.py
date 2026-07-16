@@ -64,7 +64,7 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("scan", scan))
-    app.add_handler(CommandHandler("news", news))
+    app.add_handler(CommandHandler("news", news_command))
 
     print("Garuda AI Trader Started...")
     app.run_polling()
