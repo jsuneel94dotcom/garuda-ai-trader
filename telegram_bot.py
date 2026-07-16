@@ -1,4 +1,3 @@
-
 from telegram import Update
 from telegram.ext import (
     ApplicationBuilder,
@@ -7,55 +6,38 @@ from telegram.ext import (
 )
 
 from config import TELEGRAM_TOKEN
-from news import get_positive_news
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = """
-🤖 Garuda AI Trader
-
-Welcome!
-
-Commands:
-
-/scan - Swing scan
-/ news - Positive NSE announcements
-/ help - Help
-"""
-    await update.message.reply_text(text)
+    await update.message.reply_text(
+        "Welcome!\n\n"
+        "/scan - Swing Scan\n"
+        "/news - Positive NSE News\n"
+        "/help - Help"
+    )
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Garuda AI Trader is under development."
+        "Available Commands:\n\n"
+        "/scan - Find swing stocks\n"
+        "/news - Show positive NSE announcements\n"
+        "/help - Show this help message"
     )
 
 
 async def scan(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "🔍 Scanning stocks...\n\nFeature coming in next step."
+        "🔍 Scanning stocks...\n\n"
+        "Feature coming in next step."
     )
 
 
 async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    news = get_positive_news()
-
-    if not news:
-        await update.message.reply_text(
-            "No positive NSE announcements found."
-        )
-        return
-
-    text = "📰 Positive NSE Announcements\n\n"
-
-    for item in news:
-        text += (
-            f"📈 {item['stock']}\n"
-            f"News: {item['news']}\n"
-            f"Impact: {item['impact']}\n\n"
-        )
-
-    await update.message.reply_text(text)
+    await update.message.reply_text(
+        "📰 Fetching positive NSE announcements...\n\n"
+        "Feature coming in next step."
+    )
 
 
 def main():
@@ -67,6 +49,7 @@ def main():
     app.add_handler(CommandHandler("news", news_command))
 
     print("Garuda AI Trader Started...")
+
     app.run_polling()
 
 
