@@ -37,15 +37,20 @@ async def scan(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-async def news(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    news = get_positive_news()
 
-    items = get_positive_news()
+    if not news:
+        await update.message.reply_text(
+            "No positive NSE announcements found."
+        )
+        return
 
     text = "📰 Positive NSE Announcements\n\n"
 
-    for item in items:
+    for item in news:
         text += (
-            f"Stock: {item['stock']}\n"
+            f"📈 {item['stock']}\n"
             f"News: {item['news']}\n"
             f"Impact: {item['impact']}\n\n"
         )
