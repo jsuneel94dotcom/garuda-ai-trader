@@ -1,3 +1,5 @@
-from telegram_bot import main
+from delivery_compare import compare_delivery
 
-main()
+result = compare_delivery()
+
+print(result)
