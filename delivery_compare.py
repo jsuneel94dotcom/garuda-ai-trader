@@ -1,21 +1,21 @@
 import pandas as pd
 
 
-def compare_delivery():
+def compare_delivery(yesterday_file, today_file):
 
-    # .DAT file ko read karo
-    yesterday = pd.read_csv("yesterday.dat")
+    # .DAT files ko read karo
+    yesterday = pd.read_csv(yesterday_file)
 
-    today = pd.read_csv("today.dat")
+    today = pd.read_csv(today_file)
 
-    # Column names ko short naam de dete hain
+    # Delivery percentage wala column
     delivery_column = "% of Deliverable Quantity to Traded Quantity"
 
-    # Sirf EQ series wale stocks rakho
+    # Sirf EQ stocks rakho
     yesterday = yesterday[yesterday["Series"] == "EQ"]
     today = today[today["Series"] == "EQ"]
 
-    # Zaruri columns hi rakho
+    # Zaruri columns rakho
     yesterday = yesterday[
         ["Name of Security", delivery_column]
     ]
@@ -24,12 +24,11 @@ def compare_delivery():
         ["Name of Security", delivery_column]
     ]
 
-    # Column names badal do
+    # Column names change karo
     yesterday.columns = ["STOCK", "YESTERDAY"]
-
     today.columns = ["STOCK", "TODAY"]
 
-    # Dono files ko STOCK ke basis par merge karo
+    # Merge both files
     merged = pd.merge(
         yesterday,
         today,
@@ -41,14 +40,12 @@ def compare_delivery():
         merged["TODAY"] - merged["YESTERDAY"]
     )
 
-    # Sirf wahi stocks chahiye
-    # jinme delivery percentage 5% ya usse zyada badhi ho
-
+    # Delivery % increase >= 5
     result = merged[
         merged["DIFFERENCE"] >= 5
     ]
 
-    # Sabse jyada delivery increase wala stock upar aayega
+    # Highest increase sabse upar
     result = result.sort_values(
         by="DIFFERENCE",
         ascending=False
