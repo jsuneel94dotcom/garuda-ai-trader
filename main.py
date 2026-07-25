@@ -1,5 +1,4 @@
-from delivery_compare import compare_delivery
 
-result = compare_delivery()
+from telegram_bot import run_bot
 
-print(result)
+run_bot()
